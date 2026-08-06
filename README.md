@@ -1,11 +1,11 @@
 [English](README_en.md) | 繁體中文
 
-# MissAV Downloader v1.0.0
+# MissAV Downloader v1.1.0
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Version](https://img.shields.io/badge/Version-1.0.0-orange)
-![FFmpeg](https://img.shields.io/badge/FFmpeg-Required-red)
+![Version](https://img.shields.io/badge/Version-1.1.0-orange)
+![FFmpeg](https://img.shields.io/badge/FFmpeg-Bundled-brightgreen)
 
 **MissAV Downloader** 是一個專為多媒體串流、HLS (HTTP Live Streaming) 技術與自動化爬蟲分析所開發的學術研究工具。本專案旨在探討現代影音平台如何透過動態加密 JS 隱藏 m3u8 資源，以及如何在高併發環境下穩定下載串流分片。
 
@@ -13,7 +13,7 @@
 
 ## ✨ 核心研究功能
 
-本專案持續更新，目前 v1.0.0 版本包含以下強大功能：
+本專案持續更新，目前 v1.1.0 版本包含以下強大功能：
 
 * **🖥️ 現代化圖形介面**：基於 `CustomTkinter` 打造，支援淺色/深色模式（跟隨系統），操作直觀流暢。
 * **🕷️ 智慧爬蟲與篩選**：
@@ -28,7 +28,7 @@
     * 下載清單採用「消耗式」管理。每完成一個任務，該 URL 就會從列表中移除。
     * 若程式中斷或手動停止，未完成的 URL 會自動寫回列表檔，下次執行即可直接續傳，絕不重複下載。
 * **🛠️ 自動化處理**：
-    * **自動轉檔**：下載完成後自動呼叫 FFmpeg 將分片無損合併並轉為 `.mp4` 格式。
+    * **自動轉檔**：下載完成後自動呼叫 FFmpeg（已內建可攜式版本）將分片無損合併並轉為 `.mp4` 格式。
     * **自動清理**：具備任務前、轉檔後、程式結束時的三重暫存檔清理機制，不佔用硬碟空間。
 
 ---
@@ -38,10 +38,18 @@
 在執行本程式前，請確保您的電腦已準備好以下環境：
 
 1.  **Python 3.8 或更高版本**
-2.  **FFmpeg** (必要元件)：
-    * 程式需要 FFmpeg 來進行影片合併與轉檔。
-    * 請至 [FFmpeg 官網](https://ffmpeg.org/download.html) 下載。
-    * **注意**：請務必將 `ffmpeg.exe` 的路徑加入系統環境變數 **PATH** 中。
+2.  **FFmpeg**：已透過 `imageio-ffmpeg` 套件內建可攜式版本，安裝依賴套件後即可直接使用，
+    **不需要**再自行下載 FFmpeg 或設定系統環境變數 PATH。
+    * 若內建版本在你的環境下無法正常運作，程式會自動退回改用系統 PATH 中的 `ffmpeg`（如果有安裝的話）。
+
+---
+
+## 📦 發佈形式
+
+編譯後發布的版本為**資料夾形式**（而非單一 exe 檔），資料夾內包含執行檔與所有相依檔案。這是刻意採用的打包方式：所有依賴檔案在打包當下就已展開好，執行時不需要再解壓縮到暫存資料夾，避免每次開啟視窗時造成系統性的多核心 CPU 尖峰與其他程式卡頓。
+
+* **請將整個資料夾一起保留/搬移**，不要只保留其中的 `.exe`，否則程式會因為缺少相依檔案而無法執行。
+* 部分防毒軟體（含 Windows 內建的「Windows 安全性中心 / Microsoft Defender」）會對新程式的執行檔與大量檔案做即時掃描，這在啟動含有大量相依檔案的打包程式時可能造成短暫卡頓被放大。若你信任本專案的來源，可將程式資料夾加入防毒軟體的排除清單（Windows 安全性 → 病毒與威脅防護 → 管理設定 → 排除項目）。
 
 ---
 

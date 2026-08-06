@@ -11,9 +11,9 @@ from urllib.parse import urlparse, unquote
 
 import hls_downloader
 import actress_crawler
+from build_metadata import COMPILE_DATE
 
-APP_VERSION = "1.0.0"
-COMPILE_DATE = "20260407"  # 編譯日期
+APP_VERSION = "1.1.0"
 MAX_DOWNLOAD_WORKERS = 1
 MAX_CONVERT_WORKERS = 1
 HLS_SEGMENT_WORKERS = 32
@@ -217,6 +217,8 @@ class App(ctk.CTk):
             self.pause_button.configure(text="暫停")
             self.pause_event.set()
             self.stop_button.configure(text="停止當前任務")
+            self.main_progressbar.stop()
+            self.main_progressbar.configure(mode="determinate")
             self.main_progress_container.grid_remove()
             self.individual_progress_frame.grid_remove()
             for task_id in list(self.progress_widgets.keys()):
@@ -254,6 +256,16 @@ class App(ctk.CTk):
                 percentage_text += f" ({eta})"
             widgets["percentage"].configure(text=percentage_text)
 
+    def show_main_status(self, text, animate=False):
+        self.main_progress_container.grid()
+        if animate:
+            self.main_progressbar.configure(mode="indeterminate")
+            self.main_progressbar.start()
+        else:
+            self.main_progressbar.stop()
+            self.main_progressbar.configure(mode="determinate")
+        self.main_progress_label.configure(text=text)
+
     def remove_progress_bar(self, task_id):
         if task_id in self.progress_widgets:
             widgets = self.progress_widgets.pop(task_id)
@@ -279,9 +291,15 @@ class App(ctk.CTk):
                         self.last_crawl_count = message[1]
                     elif command == "REMOVE_PROGRESS_BAR":
                         self.remove_progress_bar(task_id=message[1])
+                    elif command == "SET_MAIN_STATUS":
+                        status_text = message[1]
+                        animate = message[2] if len(message) > 2 else False
+                        self.show_main_status(status_text, animate=animate)
                     elif command == "UPDATE_MAIN_PROGRESS":
                         current, total = message[1], message[2]
                         progress = current / total if total > 0 else 0
+                        self.main_progressbar.stop()
+                        self.main_progressbar.configure(mode="determinate")
                         self.main_progressbar.set(progress)
                         self.main_progress_label.configure(text=f"{current}/{total}")
                     elif command in ("TASK_COMPLETE", "TASK_STOPPED", "TASK_FAILED"):
@@ -289,10 +307,8 @@ class App(ctk.CTk):
                         task_type = message[1]
                         if task_type == "CRAWL" and command == "TASK_COMPLETE":
                             if hasattr(self, "last_crawl_count"):
-                                self.main_progress_container.grid()  # 強制再次顯示
-                                # 更新標籤文字，顯示總數
-                                self.main_progress_label.configure(
-                                    text=f"已找到 {self.last_crawl_count} 個影片 (準備下載)"
+                                self.show_main_status(
+                                    f"已找到 {self.last_crawl_count} 個影片 (準備下載)"
                                 )
                                 self.main_progressbar.set(0)  # 進度條歸零
                                 # 清除暫存變數
@@ -416,14 +432,23 @@ class App(ctk.CTk):
             self.log_queue.put("錯誤：目標網址不能為空！\n")
             return
         self.start_task(self.crawl_task, url)
+        self.individual_progress_frame.grid_remove()
+        self.show_main_status("正在準備爬取...", animate=True)
 
     def crawl_task(self, url):
         original_stdout = sys.stdout
         sys.stdout = TextboxRedirector(self.log_queue)
         task_result = "TASK_COMPLETE"
         try:
-            links = self.actress_crawler.find_all_video_urls(url, self.stop_event)
-            if not self.stop_event.is_set() and links:
+            links = self.actress_crawler.find_all_video_urls(
+                url,
+                self.stop_event,
+                progress_callback=lambda message: self.log_queue.put(
+                    ("SET_MAIN_STATUS", message, True)
+                ),
+            )
+            # 即使爬取途中被手動停止或觸及頁數上限，只要已找到連結就照樣存檔，不要整批捨棄。
+            if links:
                 final_links = self.actress_crawler.filter_and_prioritize_urls(links)
                 txt_filename, folder_name = self._generate_paths_from_url(url)
                 absolute_txt_filepath = os.path.abspath(txt_filename)
@@ -493,15 +518,16 @@ class App(ctk.CTk):
                     break
                 try:
                     page_url = download_queue.get_nowait()
-                    ts_path, title = self.hls_downloader.download_and_merge_to_ts(
+                    conversion_job, title = self.hls_downloader.download_and_merge_to_ts(
                         page_url,
                         output_dir,
                         HLS_SEGMENT_WORKERS,
                         self.stop_event,
                         self.pause_event,
                         self.log_queue,
+                        scraper=scraper,
                     )
-                    conversion_queue.put((ts_path, page_url, title))
+                    conversion_queue.put((conversion_job, page_url, title))
                     download_queue.task_done()
                 except queue.Empty:
                     break
@@ -516,13 +542,16 @@ class App(ctk.CTk):
             while True:
                 try:
                     item = conversion_queue.get(timeout=1)
-                    ts_path, task_id, title = item
+                    conversion_job, task_id, title = item
 
                     is_successful = False
-                    if ts_path == "ALREADY_EXISTS":
+                    if conversion_job == "ALREADY_EXISTS":
                         is_successful = True
-                    elif ts_path:
-                        if self.hls_downloader._convert_ts_to_mp4(ts_path):
+                    elif conversion_job:
+                        temp_dir, total_segments, mp4_filename = conversion_job
+                        if self.hls_downloader._convert_segments_to_mp4(
+                            temp_dir, total_segments, mp4_filename
+                        ):
                             is_successful = True
 
                     if is_successful:
@@ -533,7 +562,7 @@ class App(ctk.CTk):
                         ("UPDATE_MAIN_PROGRESS", processed_count, total_tasks)
                     )
 
-                    if ts_path is not None:
+                    if conversion_job is not None:
                         self.log_queue.put(("REMOVE_PROGRESS_BAR", task_id))
 
                     conversion_queue.task_done()

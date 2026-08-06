@@ -5,7 +5,7 @@ English | [繁體中文](README.md)
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Version](https://img.shields.io/badge/Version-1.0.0-orange)
-![FFmpeg](https://img.shields.io/badge/FFmpeg-Required-red)
+![FFmpeg](https://img.shields.io/badge/FFmpeg-Bundled-brightgreen)
 
 **MissAV Downloader** is an academic research tool developed for studying multimedia streaming, HLS (HTTP Live Streaming) technology, and automated crawler analysis. This project aims to explore how modern video platforms hide m3u8 resources through dynamic encrypted JavaScript and how to stably download stream segments under high-concurrency environments.
 
@@ -28,7 +28,7 @@ This project is continuously updated. The current v1.0.0 version includes the fo
     * The download list uses "consumable" management. Once a task is completed, the URL is removed from the list.
     * If the program is interrupted or manually stopped, unfinished URLs are automatically written back to the list file, allowing for seamless resumption without duplicate downloads.
 * **🛠️ Automated Processing**:
-    * **Auto-Conversion**: Automatically calls FFmpeg after downloading to merge segments losslessly and convert them to `.mp4` format.
+    * **Auto-Conversion**: Automatically calls FFmpeg (bundled portable build included) after downloading to merge segments losslessly and convert them to `.mp4` format.
     * **Auto-Cleanup**: Features a triple cleanup mechanism (pre-task, post-conversion, and upon program exit) to ensure temporary files do not occupy disk space.
 
 ---
@@ -38,10 +38,21 @@ This project is continuously updated. The current v1.0.0 version includes the fo
 Before running this program, please ensure your computer is prepared with the following:
 
 1.  **Python 3.8 or higher**
-2.  **FFmpeg** (Essential component):
-    * The program requires FFmpeg for video merging and conversion.
-    * Download it from the [FFmpeg Official Website](https://ffmpeg.org/download.html).
-    * **Note**: Ensure that the path to `ffmpeg.exe` is added to your system environment variable **PATH**.
+2.  **FFmpeg**: A portable build is already bundled via the `imageio-ffmpeg` package, so once dependencies are
+    installed it works out of the box — **no need** to install FFmpeg separately or set the system **PATH**.
+    * If the bundled build doesn't work in your environment, the program automatically falls back to `ffmpeg` on the system PATH (if installed).
+
+---
+
+## 📦 Distribution Format
+
+Compiled releases are distributed as a **folder** (not a single exe). The folder contains the executable and all of
+its dependency files. This is an intentional packaging choice: since every dependency is already unpacked at build
+time, there's no need to decompress anything to a temp folder at startup, avoiding the system-wide multi-core CPU
+spike (and related stutter in other apps) that a single-exe build would cause each time the window opens.
+
+* **Keep/move the entire folder together** — do not copy only the `.exe`, or the program will fail to run due to missing dependency files.
+* Some antivirus software (including Windows Security / Microsoft Defender) performs real-time scanning of a new program's executable and large numbers of files, which can amplify brief stutter when launching a packaged app with many dependency files. If you trust the source of this project, you can add the program folder to your antivirus exclusion list (Windows Security → Virus & threat protection → Manage settings → Exclusions).
 
 ---
 
