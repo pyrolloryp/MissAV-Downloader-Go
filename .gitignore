@@ -205,3 +205,13 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# 版權保護
+actress_crawler.py
+hls_downloader.py
+
+# 打包時自動產生，內容由 MissAV_Downloader.spec 覆寫
+build_metadata.py
+build.ps1
+.gitignore
+requirements.txt
