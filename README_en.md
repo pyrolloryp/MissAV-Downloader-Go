@@ -1,4 +1,4 @@
-English | [繁體中文](README.md)
+English | [繁體中文](https://github.com/pyrolloryp/MissAV_Downloader)
 
 # MissAV Downloader v1.1.0
 
