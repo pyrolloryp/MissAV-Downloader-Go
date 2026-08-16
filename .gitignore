@@ -206,6 +206,11 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
+# Claude Code 本機資料
+#   記憶檔實際存放於使用者家目錄的 ~/.claude/projects/，本來就在 repo 之外，
+#   這條規則是防呆：避免未來若在專案內產生 .claude/ 設定資料夾時被誤加入版控。
+.claude/
+
 # 版權保護
 actress_crawler.py
 hls_downloader.py
