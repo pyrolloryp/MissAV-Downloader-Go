@@ -65,7 +65,7 @@ Windows 免安裝版，解壓即用。下載後請比對 [SHA-256 校驗碼](#�
 ## 📋 環境需求
 
 * **Windows 10 / 11**
-* **WebView2 Runtime**：Windows 10 (2020 年後的更新) 與 Windows 11 皆已內建，一般不需另外安裝。若程式啟動後視窗空白，請至微軟官網安裝 *Microsoft Edge WebView2 Runtime*。
+* **WebView2 Runtime**：Windows 10 (2020 年後的更新) 與 Windows 11 皆已內建，一般不需另外安裝。若程式啟動後視窗空白，請至微軟官網安裝 [Microsoft Edge WebView2 Runtime](https://developer.microsoft.com/en-us/microsoft-edge/webview2/)。
 * **FFmpeg**：已內建可攜式版本，**不需要**自行下載或設定系統環境變數 PATH。
 
 不需要安裝 Python，也不需要安裝任何套件。

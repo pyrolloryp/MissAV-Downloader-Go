@@ -65,7 +65,7 @@ The same explanation and contact address also appear at the top of the app's Set
 ## 📋 Requirements
 
 * **Windows 10 / 11**
-* **WebView2 Runtime** — already included in Windows 11 and in Windows 10 updates from 2020 onward, so you usually don't need to install anything. If the window comes up blank, install *Microsoft Edge WebView2 Runtime* from Microsoft.
+* **WebView2 Runtime** — already included in Windows 11 and in Windows 10 updates from 2020 onward, so you usually don't need to install anything. If the window comes up blank, install the [Microsoft Edge WebView2 Runtime](https://developer.microsoft.com/en-us/microsoft-edge/webview2/) from Microsoft.
 * **FFmpeg** — a portable build is bundled. You do **not** need to download it or add it to PATH.
 
 No Python, and no packages to install.
