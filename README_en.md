@@ -12,6 +12,10 @@ English | [繁體中文](README.md)
 
 > **What's new in v2.0.0: the core has been rewritten from Python to Go.** Startup time, memory footprint, and download scheduling all improved noticeably — and **no Python installation or dependencies are required any more**. Download, extract, run.
 
+### [⬇️ Download the latest release](../../releases/latest)
+
+Portable Windows build — extract and run. Verify it against the [SHA-256 checksum](#file-verification) after downloading.
+
 ---
 
 ## ✨ Core Research Features
@@ -97,7 +101,7 @@ Releases ship as a **folder**, not a single exe. Everything is already unpacked 
 ## 🔒 Verification and Disclaimer
 
 ### File verification
-To make sure the executable hasn't been tampered with, always compare it against the **SHA-256 checksum** published on the Release page.
+To make sure the executable hasn't been tampered with, always compare it against the **SHA-256 checksum** published on the [Release page](../../releases/latest).
 
 ### Legal notice
 * **Academic use** — this project is for personal technical study and HLS protocol research only.
