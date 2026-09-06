@@ -32,9 +32,9 @@ English | [繁體中文](README.md)
 
 ---
 
-## 🔑 Full Edition Features
+## 🔑 Sponsor Edition Features
 
-The full edition is available to **sponsors**. The features below are **visible but inactive** in this public edition; clicking them reports that they belong to the full edition. Their code is not present in the public build's executable, so the public edition isn't carrying dead weight it can't use.
+The Sponsor Edition is, as the name says, for **sponsors**. The features below are **visible but inactive** in the Community Edition; clicking them reports that they belong to the Sponsor Edition. Their code is not present in the Community Edition's executable, so it isn't carrying dead weight it can't use.
 
 | Feature | Description |
 | --- | --- |
@@ -43,16 +43,16 @@ The full edition is available to **sponsors**. The features below are **visible 
 | **New-release monitoring** | Check saved actresses for new videos in the background on a configurable interval, with a full deep-scan pass to catch anything missed. |
 | **Local video database** | Build a local video index per saved actress, used as the baseline for new-release comparison. |
 | **Tray icon and notifications** | Tray badge, Windows toast notifications, download-complete notifications, and minimise-to-tray on window close. |
-| **Automatic filing** | Finished downloads are sorted into per-actress folders (solo work under the actress's name, two or more under "multiple actresses", none detected under "unclassified"). The public edition puts everything flat in the output folder. |
-| **⚡ High-speed concurrent download** | The public edition pins both "concurrent downloads" and "concurrent site connections" to 1. |
+| **Automatic filing** | Finished downloads are sorted into per-actress folders (solo work under the actress's name, two or more under "multiple actresses", none detected under "unclassified"). The Community Edition puts everything flat in the output folder. |
+| **⚡ High-speed concurrent download** | The Community Edition pins both "concurrent downloads" and "concurrent site connections" to 1. |
 
-### How to get the full edition
+### How to get the Sponsor Edition
 
-The public edition is **free**, and it keeps getting updated alongside the full one — none of the locked features get in the way of downloading videos normally.
+The Community Edition is **free**, and it keeps getting updated alongside the Sponsor Edition — none of the locked features get in the way of downloading videos normally.
 
-The full edition is available through **sponsorship**. Keeping this project working (especially the anti-bot countermeasures after each site change) takes ongoing time, and sponsorship is what makes that sustainable.
+The Sponsor Edition is available through **sponsorship**. Keeping this project working (especially the anti-bot countermeasures after each site change) takes ongoing time, and sponsorship is what makes that sustainable.
 
-**Email** [pyrolloryp@proton.me](mailto:pyrolloryp@proton.me) saying you'd like the full edition, and you'll get a reply with sponsorship details and how to receive it. Technical discussion, feature suggestions and bug reports are equally welcome by email or via Issues.
+**Email** [pyrolloryp@proton.me](mailto:pyrolloryp@proton.me) saying you'd like the Sponsor Edition, and you'll get a reply with sponsorship details and how to receive it. Technical discussion, feature suggestions and bug reports are equally welcome by email or via Issues.
 
 The same explanation and contact address also appear at the top of the app's Settings tab.
 
