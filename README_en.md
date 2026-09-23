@@ -1,6 +1,6 @@
 English | [繁體中文](README.md)
 
-# MissAV Downloader
+# MissAV Downloader Go
 
 ![Go](https://img.shields.io/badge/Go-1.25-00ADD8)
 ![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey)
@@ -8,7 +8,7 @@ English | [繁體中文](README.md)
 ![Version](https://img.shields.io/github/v/release/pyrolloryp/MissAV_Downloader?label=Version&color=orange)
 ![FFmpeg](https://img.shields.io/badge/FFmpeg-Bundled-brightgreen)
 
-**MissAV Downloader** is an academic research tool built to study multimedia streaming, HLS (HTTP Live Streaming), and automated crawling. It explores how modern video platforms hide m3u8 resources behind dynamically obfuscated JavaScript, and how stream segments can be downloaded reliably under high concurrency.
+**MissAV Downloader Go** is an academic research tool built to study multimedia streaming, HLS (HTTP Live Streaming), and automated crawling. It explores how modern video platforms hide m3u8 resources behind dynamically obfuscated JavaScript, and how stream segments can be downloaded reliably under high concurrency.
 
 > **What's new in v2.0.0: the core has been rewritten from Python to Go.** Startup time, memory footprint, and download scheduling all improved noticeably — and **no Python installation or dependencies are required any more**. Download, extract, run.
 
