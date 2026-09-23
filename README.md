@@ -5,7 +5,7 @@
 ![Go](https://img.shields.io/badge/Go-1.25-00ADD8)
 ![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Version](https://img.shields.io/github/v/release/pyrolloryp/MissAV_Downloader?label=Version&color=orange)
+![Version](https://img.shields.io/github/v/release/pyrolloryp/MissAV-Downloader-Go?label=Version&color=orange)
 ![FFmpeg](https://img.shields.io/badge/FFmpeg-Bundled-brightgreen)
 
 **MissAV Downloader Go** 是一個專為多媒體串流、HLS (HTTP Live Streaming) 技術與自動化爬蟲分析所開發的學術研究工具。本專案旨在探討現代影音平台如何透過動態加密 JS 隱藏 m3u8 資源，以及如何在高併發環境下穩定下載串流分片。

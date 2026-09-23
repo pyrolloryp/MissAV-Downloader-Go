@@ -5,7 +5,7 @@ English | [繁體中文](README.md)
 ![Go](https://img.shields.io/badge/Go-1.25-00ADD8)
 ![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Version](https://img.shields.io/github/v/release/pyrolloryp/MissAV_Downloader?label=Version&color=orange)
+![Version](https://img.shields.io/github/v/release/pyrolloryp/MissAV-Downloader-Go?label=Version&color=orange)
 ![FFmpeg](https://img.shields.io/badge/FFmpeg-Bundled-brightgreen)
 
 **MissAV Downloader Go** is an academic research tool built to study multimedia streaming, HLS (HTTP Live Streaming), and automated crawling. It explores how modern video platforms hide m3u8 resources behind dynamically obfuscated JavaScript, and how stream segments can be downloaded reliably under high concurrency.
