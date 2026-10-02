@@ -10,7 +10,7 @@ English | [繁體中文](README.md)
 
 **MissAV Downloader Go** is an academic research tool built to study multimedia streaming, HLS (HTTP Live Streaming), and automated crawling. It explores how modern video platforms hide m3u8 resources behind dynamically obfuscated JavaScript, and how stream segments can be downloaded reliably under high concurrency.
 
-> **What's new in v2.0.0: the core has been rewritten from Python to Go.** Startup time, memory footprint, and download scheduling all improved noticeably — and **no Python installation or dependencies are required any more**. Download, extract, run.
+> **What's new in v2.5.0: a task manager, a Popular tab, playlist downloads and an English interface — plus seamless merging with no gaps between segments, and automatic retries when the connection drops.** Coming from v2.0.0? See [Upgrading from v2.0.0](#upgrading-from-v200).
 
 ### [⬇️ Download the latest release](../../releases/latest)
 
@@ -20,19 +20,25 @@ Portable Windows build — extract and run. Verify it against the [SHA-256 check
 
 ## ✨ Core Research Features
 
-* **🖥️ Native desktop UI** — built with Go + [Wails](https://wails.io/), rendered through the system's built-in WebView2. Light/dark themes, optionally following the system setting.
+* **🖥️ Native desktop UI** — built with Go + [Wails](https://wails.io/), rendered through the system's built-in WebView2. Light/dark themes, optionally following the system setting. The interface is available in **English and Traditional Chinese**; it follows the system language by default and can be switched in Settings at any time, no restart needed.
 * **🕷️ Smart crawling and filtering**
-    * Paste an actress or series URL and every paginated video is collected into a URL list file.
-    * **Smart de-duplication** — duplicates of the same video are filtered out. You choose which variants to include (original / Chinese subtitles / uncensored leak), with VR opt-in; when a video exists in several of them, the original is preferred, then Chinese subtitles, then the uncensored leak.
+    * Paste an actress, series or **playlist** URL and every paginated video is collected into a URL list file. Playlists download in their original order, and the list file is named after the playlist.
+    * **Work category** — when crawling an actress page, choose all, solo or multi-actress works.
+    * **Variant selection** — tick the variants to download (original / Chinese subtitles / uncensored leak), with VR opt-in. The Community Edition downloads **every variant you tick**: if a code exists as both the original and a Chinese-subtitle release, both are downloaded, with `[中文字幕]` / `[無碼流出]` appended to the filename so they never overwrite each other. If you only want the original, tick only "Original".
+    * Duplicate URLs for the same video are removed automatically.
+* **🔥 Popular** — browse today's, this week's and this month's rankings, enlarge covers, and add the videos you tick straight to the download list. Which ranking opens first can be set in Settings.
 * **🛡️ Stream probing** — a separate networking component mimics browser TLS/HTTP2 fingerprints, for studying resource discovery under modern anti-bot measures.
-* **⏯️ Task control**
-    * **Pause / resume / stop** — free up bandwidth mid-download and pick up later.
-    * **Segment-level resume** — already downloaded `.ts` segments are kept, so an interruption doesn't mean starting over.
-    * **Two-level progress** — overall task progress and per-file progress side by side, with an ETA.
-* **🔄 Consumable task list** — each finished task is removed from the list file; if the run is interrupted or stopped, unfinished URLs are written back so the next run resumes without re-downloading.
+* **📋 Task manager**
+    * An imported TXT becomes a **batch**, and each video's progress is stored locally, so it's still there after you close and reopen the app (nothing starts downloading on its own).
+    * Failed or stopped videos can be retried individually; unfinished URLs can be exported, and completed records cleared.
+    * TXT lists in the download folder are picked up automatically at startup; re-crawling the same list merges it back into its existing batch, so videos already downloaded aren't fetched again.
+    * **Pause / resume / stop**, **segment-level resume** (downloaded `.ts` segments are kept, so an interruption doesn't mean starting over), **two-level progress** with an ETA, and the list scrolls itself to the video currently downloading.
 * **🛠️ Automation**
-    * **Automatic remux** — FFmpeg (bundled, portable) losslessly merges the segments into `.mp4` when a download completes.
-    * **Automatic cleanup** — temporary files are cleared before a task, after remuxing, and on exit.
+    * **Seamless merging** — FFmpeg (bundled, portable) losslessly merges the segments into `.mp4` when a download completes. Segments are streamed to FFmpeg in order, so there are no gaps at the joins and the duration matches the source stream.
+    * **Automatic retries** — brief connection drops are retried automatically, failed segments are fetched again at the end, and a video only fails after two straight minutes without receiving any data.
+    * **Full filenames** — files are named with the full title shown on the video page, shortened automatically when too long. The final filename is only written once merging succeeds, so stopping midway never leaves a broken file behind.
+    * **Download while merging** — the next video starts downloading while the previous one is still being merged.
+    * **Temp cleanup** — each video's temporary segments are deleted as soon as it finishes merging; unfinished segments are kept for resuming and can be cleared from Settings with one click.
 
 ---
 
@@ -45,11 +51,13 @@ None of that code ships inside the Community Edition's executable — these feat
 | Feature | Description |
 | --- | --- |
 | **Account sign-in** | Sign in to a missav.ai account (including shared sign-in via a browser cookie) to access the actresses you've saved on the site. |
-| **Favorites** | Sync the saved actress list from the site, work out which videos haven't been downloaded yet, and browse each actress's full video list. The Community Edition's Favorites tab opens, but the list is always empty. |
-| **New-release monitoring** | Check saved actresses for new videos in the background on a configurable interval, with a full deep-scan pass to catch anything missed. The Community Edition has **no background checker at all** — when it's idle it is genuinely idle, and it will never pop up a "new release found" notification on its own. |
+| **Collections** | Sync the saved actress list from the site, work out which videos haven't been downloaded yet, and browse each actress's full video list. The saved videos and playlists from your site account are listed too, ready to check and add to the download list. The Community Edition's Collections tab opens, but the list is always empty. |
+| **New-release monitoring** | Check saved actresses for new videos in the background on a configurable interval, with a full deep-scan pass to catch anything missed; videos newly added to tracked playlists are reported too. The Community Edition has **no background checker at all** — when it's idle it is genuinely idle, and it will never pop up a "new release found" notification on its own. |
 | **Local video database** | Build a local video index per saved actress, used as the baseline for new-release comparison. **Crawling itself is fully available in the Community Edition** — it still pages through the site and still writes the URL list. Only the step that files a crawled list into the database is sponsor-only. |
 | **Tray icon and notifications** | Tray icon with an unread badge, Windows toast notifications, download-complete notifications, and minimize-to-tray on window close. The Community Edition has none of this: no icon in the notification area, no system notifications of any kind, and closing the window really does quit. Track downloads from the task progress in the app instead. |
-| **Automatic filing** | Finished downloads are sorted into per-actress folders (solo work under the actress's name, two or more under "multiple actresses", none detected under "unclassified"). The Community Edition puts everything flat in the output folder — no "multiple actresses" or "unclassified" folders are ever created. **The videos themselves, their filenames and their quality are identical**; you just end up with one flat pile that you have to organize yourself. |
+| **Automatic filing** | Finished downloads are sorted into per-actress folders (solo work under the actress's name, two or more under "multiple actresses", none detected under "unclassified"), and a playlist download goes into a folder named after the playlist. The Community Edition puts everything flat in the output folder — no "multiple actresses" or "unclassified" folders are ever created. **The videos themselves, their filenames and their quality are identical**; you just end up with one flat pile that you have to organize yourself. |
+| **List import rules** | When a code exists in several variants, download only one of them, in a version priority you choose (for example uncensored leak first, then Chinese subtitles). The Community Edition always downloads **every variant you tick** — tick fewer to download fewer. |
+| **Clip preview** | Preview a short clip right inside the Popular and Collections lists (starting from any minute you choose), and open the original page in one click. These two buttons don't appear in the Community Edition's lists; enlarging covers works in both editions. |
 | **⚡ Multiple downloads at once** | The Sponsor Edition downloads up to 5 videos concurrently (3 by default); the Community Edition works through the queue **one video at a time**. **A single video downloads at exactly the same speed in both editions** — what's limited is how many run at once, not how fast each one goes. |
 | **🎞️ Video quality selection** | Choose the download quality up front: highest (default), up to 1080p, up to 720p, up to 480p, or lowest — useful when disk space or bandwidth is tight. **The Community Edition always downloads at the highest quality**: for the same video, both editions pull the same stream, the same bitrate and the same file size. Nothing is downgraded — what the Sponsor Edition adds is the ability to deliberately dial it *down*. |
 
@@ -60,6 +68,7 @@ These features are **deliberately left visible** in the Community Edition, so yo
 * **Buttons** (sign in, refresh favorites, build database, test notification…) show a short note when clicked, telling you it's a Sponsor Edition feature and how to get in touch — no error, no dead click.
 * **Toggles** (monitoring, the various notifications, "start downloading immediately after adding"…) can be switched on, but **they revert to off when settings are saved**. That's intentional: a switch stuck in the "on but doing nothing" state looks like a bug, so it honestly falls back to off.
 * **Dropdowns** (concurrent site connections, concurrent downloads, video quality, close-window behavior) only list the option that applies to the Community Edition: the first two are fixed at 1, quality is fixed at the highest, and closing the window quits.
+* **List import rules** are fixed to "download all selected types", and the version priority can't be changed.
 * **Check interval** can be changed and will be saved, but it only feeds favorites monitoring and database building — ordinary downloading and crawling don't go through it.
 
 The Community Edition also **ships with the right defaults already set**: monitoring and notifications start off, concurrent downloads starts at 1. There's nothing you need to turn off yourself.
@@ -95,22 +104,32 @@ Releases ship as a **folder**, not a single exe. Everything is already unpacked 
 * **Keep and move the whole folder**, not just the `.exe` — on its own it can't find its dependencies and won't start.
 * Some antivirus software (Microsoft Defender included) scans new executables and large sets of files in real time, which can cause a brief stall on first launch. If you trust the source, add the program folder to your antivirus exclusion list (Windows Security → Virus & threat protection → Manage settings → Exclusions).
 
+### Upgrading from v2.0.0
+
+From v2.5.0 the executable is named `MissAVDownloaderGo.exe` (it used to be `MissAV_Downloader.exe`).
+
+1. Extract the new version into a **new folder**.
+2. Move `data` (settings) and `downloads` (URL list files and videos) over from the old folder. If you have half-finished downloads, move `temp` as well and they'll resume.
+3. Open the new version, check that your settings and lists are there, then delete the old folder.
+
+Videos you downloaded with the old version won't be downloaded again: the new version names files with the full title, but recognizes both the old and the new filenames when checking what's already downloaded. TXT lists in `downloads` are imported into the task manager at startup; nothing starts downloading on its own.
+
 ---
 
 ## 🚀 Getting Started
 
 ### Step 1: Collect the video list
-* Paste a MissAV **single video** or **actress / series page** URL into the **Target URL** field (the "Paste" button works too).
-* For an actress or series page, the program pages through the site automatically and writes every video into the URL list file.
-* You can also drag a prepared `.txt` list onto the window to import it.
+* Paste a MissAV **single video**, **actress / series page** or **playlist** URL into the **Target URL** field (the "Paste" button works too).
+* For an actress, series or playlist page, the program pages through the site automatically, writes every video into the URL list file, and creates a batch in the task manager.
+* You can also drag a prepared `.txt` list onto the window to import it, or tick videos in the **Popular** tab and click **Add to download list**.
 
 ### Step 2: Check the download settings
-* Confirm the **URL list file** and **output folder** paths.
-* Tick the variants you want (original / Chinese subtitles / uncensored leak / VR).
+* Confirm the **URL list file** and **Save folder** paths.
+* Tick the variants you want (original / Chinese subtitles / uncensored leak / VR); when crawling an actress page you can also pick a **work category** (all / solo / multi-actress).
 
 ### Step 3: Start the batch download
-* Click **Start batch download** and watch progress and ETA on the two progress bars.
-* You can pause or stop at any time; unfinished entries stay in the list file for the next run.
+* Pick the batch in the **Task manager**, click **Start batch download**, and watch progress and ETA on the two progress bars.
+* You can pause or stop at any time; unfinished videos stay in the batch, so selecting the same batch next time resumes them, and failed videos can be retried individually.
 
 ---
 
