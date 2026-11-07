@@ -16,6 +16,15 @@
 
 Windows 免安裝版，解壓即用。下載後請比對 [SHA-256 校驗碼](#檔案校驗)。
 
+<p align="center">
+  <img src="screenshots/zh-browse.webp" alt="瀏覽分頁：封面牆，勾選後加入下載清單" width="100%">
+</p>
+<p align="center">
+  <img src="screenshots/zh-video.webp" alt="影片頁：影片資料、版本切換與相關推薦" width="49%">
+  <img src="screenshots/zh-tasks.webp" alt="任務管理器：批次、進度與剩餘時間" width="49%">
+</p>
+<p align="center"><sub>截圖中的番號、片名與封面皆為示意用的假資料。</sub></p>
+
 ---
 
 ## ✨ 核心研究功能

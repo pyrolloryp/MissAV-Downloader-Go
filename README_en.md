@@ -16,6 +16,15 @@ English | [繁體中文](README.md)
 
 Portable Windows build — extract and run. Verify it against the [SHA-256 checksum](#file-verification) after downloading.
 
+<p align="center">
+  <img src="screenshots/en-browse.webp" alt="Browse tab: cover gallery, tick videos to add them to the download list" width="100%">
+</p>
+<p align="center">
+  <img src="screenshots/en-video.webp" alt="Video page: details, version switching and recommendations" width="49%">
+  <img src="screenshots/en-tasks.webp" alt="Task manager: batches, progress and time remaining" width="49%">
+</p>
+<p align="center"><sub>Codes, titles and covers in the screenshots are placeholder demo data.</sub></p>
+
 ---
 
 ## ✨ Core Research Features
