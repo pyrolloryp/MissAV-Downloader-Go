@@ -65,6 +65,16 @@ Portable Windows build — extract and run. Verify it against the [SHA-256 check
 
 Everything listed above works fully in the Community Edition. The Sponsor Edition is, as the name suggests, for **sponsors**; it adds everything listed below.
 
+<p align="center">
+  <img src="screenshots/en-sponsor-favorites.webp" alt="Collections: new videos from your saved actresses in one list, ready to add to the download list" width="49%">
+  <img src="screenshots/en-sponsor-library.webp" alt="Library compare: how many of each actress's works you have and which ones are missing" width="49%">
+</p>
+<p align="center">
+  <img src="screenshots/en-sponsor-tasks.webp" alt="Three videos downloading at once, capped at 1080p" width="49%">
+  <img src="screenshots/en-sponsor-home.webp" alt="Home: new videos from subscriptions, and a heads-up when a downloaded video gets a Chinese-subtitle release" width="49%">
+</p>
+<p align="center"><sub>These four are Sponsor Edition screens, also filled with placeholder demo data.</sub></p>
+
 None of that code ships inside the Community Edition's executable — these features aren't switched off, they simply aren't built in. The Community Edition has no collection monitor or scheduled video checks. Builds supporting app updates have a separate, optional startup check against GitHub; it does not continuously poll.
 
 | Feature | Description |

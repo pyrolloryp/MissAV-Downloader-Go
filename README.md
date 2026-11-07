@@ -65,6 +65,16 @@ Windows 免安裝版，解壓即用。下載後請比對 [SHA-256 校驗碼](#�
 
 上面列的功能，社群版**全部都能用**。贊助版是提供給**贊助者**的版本，在那之上多了下面這些。
 
+<p align="center">
+  <img src="screenshots/zh-sponsor-favorites.webp" alt="我的收藏：收藏女優的新片一次列出，勾選後加入下載清單" width="49%">
+  <img src="screenshots/zh-sponsor-library.webp" alt="片庫比對：每位女優的作品已有幾部、還缺哪幾部" width="49%">
+</p>
+<p align="center">
+  <img src="screenshots/zh-sponsor-tasks.webp" alt="同時下載三部影片，並指定 1080p 以下的畫質" width="49%">
+  <img src="screenshots/zh-sponsor-home.webp" alt="首頁：訂閱的新片，以及已下載影片推出中文字幕版的提醒" width="49%">
+</p>
+<p align="center"><sub>以上四張是贊助版的畫面，資料同樣是示意用的假資料。</sub></p>
+
 這些功能的程式碼**並不包含在社群版的執行檔內**——社群版不是把它們關起來，而是根本沒有編進去。社群版沒有收藏監控或定時檢查新片；支援程式更新的版本另有可關閉的「啟動時檢查更新」，只向 GitHub 查詢程式版本，不會持續輪詢。
 
 | 功能 | 說明 |
