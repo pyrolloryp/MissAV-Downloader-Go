@@ -10,7 +10,7 @@ English | [繁體中文](README.md)
 
 **MissAV Downloader Go** is an academic research tool built to study multimedia streaming, HLS (HTTP Live Streaming), and automated crawling. It explores how modern video platforms hide m3u8 resources behind dynamically obfuscated JavaScript, and how stream segments can be downloaded reliably under high concurrency.
 
-> **What's new in v2.8.0: Browse and Actresses tabs and an in-app video page, a task manager that can auto-continue and jump the queue, broken segments from the site get cut out, and future versions can update from inside the app.** Coming from an older version? See [Upgrading from an older version](#upgrading-from-an-older-version).
+> **What's new in v2.8.1: you can add more of an actress's works while her batch is downloading, and her works list can show uncensored leaks only, with ticks kept across pages.** v2.8.0 added the Browse and Actresses tabs and an in-app video page, a task manager that can auto-continue and jump the queue, cutting out broken segments from the site, and in-app updates for future versions. Coming from an older version? See [Upgrading from an older version](#upgrading-from-an-older-version).
 
 ### [⬇️ Download the latest release](../../releases/latest)
 
@@ -38,7 +38,7 @@ Portable Windows build — extract and run. Verify it against the [SHA-256 check
 * **🔥 Popular** — browse today's, this week's and this month's rankings (up to page 100), enlarge covers, and add the videos you tick straight to the download list. Which ranking opens first can be set in Settings.
 * **🧭 Browsing and video pages**
     * **Browse** tab — search, the site's sections, and the genre and maker indexes, with sorting, filters and paging; tick videos to add them to the download list.
-    * **Actresses** tab — the actress index, the actress ranking and each actress's works. Popular and works lists show release dates.
+    * **Actresses** tab — the actress index, the actress ranking and each actress's works. Popular and works lists show release dates. A works list can be filtered to uncensored leaks only, and ticks are kept when you change pages or sorting, so you can add videos ticked on several pages at once.
     * The address bar at the top takes a search, a video code or a pasted URL; back/forward work with the mouse side buttons and Alt+← / →.
     * **Video page** — see a video's details, switch to the other variants of the same code, and see recommended videos without leaving the app; right-click a video in any list for a shortcut menu.
     * Covers are cached locally, so lists scroll and go back faster.
@@ -49,7 +49,7 @@ Portable Windows build — extract and run. Verify it against the [SHA-256 check
     * TXT lists in the download folder are picked up automatically at startup; re-crawling the same list merges it back into its existing batch, so videos already downloaded aren't fetched again.
     * **Pause / resume / stop**, **segment-level resume** (downloaded `.ts` segments are kept, so an interruption doesn't mean starting over), **two-level progress** with an ETA, and the list scrolls itself to the video currently downloading.
     * **Auto-start** (videos imported while idle start downloading right away) and **Auto-continue** (the next batch starts as soon as a download slot frees up, without waiting for the previous batch to finish merging) — both off by default. **Jump queue** moves a batch to the front.
-    * You can paste URLs into the download list while downloading. Batches that finish successfully are cleared automatically; failed, stopped and unfinished videos stay for retrying.
+    * You can paste URLs into the download list while downloading; adding an actress's works while her batch is downloading opens a new batch that runs after it, instead of waiting for the first one to finish. Batches that finish successfully are cleared automatically; failed, stopped and unfinished videos stay for retrying.
 * **🛠️ Automation**
     * **Seamless merging** — FFmpeg (bundled, portable) losslessly merges the segments into `.mp4` when a download completes. Segments are streamed to FFmpeg in order, so there are no gaps at the joins and the duration matches the source stream.
     * **Automatic retries** — brief connection drops are retried automatically, failed segments are fetched again at the end, and a video only fails after two straight minutes without receiving any data.
