@@ -14,7 +14,7 @@ English | [繁體中文](README.md)
 
 ### [⬇️ Download the latest release](../../releases/latest)
 
-Portable Windows build — extract and run. Verify it against the [SHA-256 checksum](#file-verification) after downloading.
+Portable Windows build — extract and run. Verify it against the [SHA-256 checksum](#file-verification) after downloading. If the ZIP disappears or files are missing after extraction, your antivirus has most likely removed them — see [Antivirus false positives](#antivirus-false-positives).
 
 <p align="center">
   <img src="screenshots/en-browse.webp" alt="Browse tab: cover gallery, tick videos to add them to the download list" width="100%">
@@ -137,7 +137,23 @@ The Community Edition is currently **released for Windows only**.
 Releases ship as a **folder**, not a single exe. Everything is already unpacked at build time, so the program doesn't have to extract itself into a temp directory on every launch — which is what causes the system-wide multi-core CPU spike and stutter you get from single-file bundles.
 
 * **Keep and move the whole folder**, not just the `.exe` — on its own it can't find its dependencies and won't start.
-* Some antivirus software (Microsoft Defender included) scans new executables and large sets of files in real time, which can cause a brief stall on first launch. If you trust the source, add the program folder to your antivirus exclusion list (Windows Security → Virus & threat protection → Manage settings → Exclusions).
+
+### Antivirus false positives
+
+The program has no publisher code signature, and its folder contains executables such as the updater and the connection component, so some antivirus software (including the built-in Microsoft Defender) may flag it as a threat:
+
+* The downloaded ZIP or the extracted files get **deleted or quarantined**: the ZIP vanishes right after download, files are missing after extraction, or the program won't start.
+* The ZIP downloaded by the in-app updater gets deleted, so the update fails.
+* Real-time scanning of many files causes a brief stall on first launch.
+
+If this happens:
+
+1. Verify the [SHA-256 checksum](#file-verification) to confirm the file is the original from this project's Releases.
+2. Open Windows Security → Virus & threat protection → Protection history, find the quarantined item, and choose Actions → Restore. For other antivirus software, restore it from that program's quarantine.
+3. Add the program folder to the exclusion list (Virus & threat protection → Manage settings → Exclusions → Add an exclusion → Folder), then extract again.
+4. If the ZIP is corrupted or can't be restored, download it again and re-verify the checksum.
+
+Only do this for files whose source you have verified — don't turn off your antivirus entirely.
 
 ### Upgrading from an older version
 
